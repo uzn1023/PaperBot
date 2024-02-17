@@ -21,6 +21,7 @@ import openai
 
 # openai.api_key = secret_keys.openai_api_key
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
+os.environ["OPENAI_API_KEY"] = st.secrets.OpenAIAPI.openai_api_key
 
 st.set_page_config(layout="wide")
 
