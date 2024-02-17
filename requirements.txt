@@ -1,8 +1,9 @@
-fitz==0.0.1.dev2
+PyMuPDF
+frontend
+fitz
 langchain==0.1.7
 openai==1.12.0
 pandas==2.2.0
 Pillow==10.2.0
 python-dotenv==1.0.1
 streamlit==1.31.1
-PyMuPDF
