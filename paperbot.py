@@ -12,13 +12,12 @@ from langchain.callbacks.base import BaseCallbackHandler
 import streamlit as st
 import base64
 import pandas as pd
-#import fitz  # PyMuPDF
+import fitz  # PyMuPDF
 from PIL import Image
 import sqlite3
 from langchain.text_splitter import CharacterTextSplitter
 import translate
 import openai
-import secret_keys
 
 # openai.api_key = secret_keys.openai_api_key
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
