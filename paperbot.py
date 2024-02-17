@@ -12,7 +12,7 @@ from langchain.callbacks.base import BaseCallbackHandler
 import streamlit as st
 import base64
 import pandas as pd
-import fitz  # PyMuPDF
+#import fitz  # PyMuPDF
 from PIL import Image
 import sqlite3
 from langchain.text_splitter import CharacterTextSplitter
