@@ -67,6 +67,7 @@ tab_chat, tab_search, tab_pdf, tab_data = st.tabs(["CHAT", "SEARCH", "PDF UPLOAD
 with st.sidebar:
     select_model = st.selectbox("Model", ["gpt-3.5-turbo", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-instruct", "gpt-4-1106-preview", "gpt-4-turbo-preview"])
     select_temperature = st.slider("Temperature", min_value=0.0, max_value=2.0, value=0.0, step=0.1,)
+    select_chunk_size = st.slider("Chunk", min_value=0.0, max_value=1000.0, value=1000.0, step=10.0,)
     translate_on = st.toggle('検索結果を翻訳する', key='1')
 with tab_pdf:
     uploaded_file = st.file_uploader("PDFをアップロードしてください", type="pdf")
@@ -77,9 +78,9 @@ with tab_pdf:
             tmp_file_path = tmp_file.name
         
             # PDFを表示
-            with st.expander("読み込まれたファイル", expanded=False):
-                st.write(show_pdf(tmp_file.name))
-                #st.write(uploaded_file.getvalue())
+            # with st.expander("読み込まれたファイル", expanded=False):
+            #     st.write(show_pdf(tmp_file.name))
+            #     #st.write(uploaded_file.getvalue())
             loader = PyMuPDFLoader(file_path=tmp_file_path) 
             documents = loader.load() 
             
@@ -105,7 +106,7 @@ with tab_pdf:
             )
 
             database = Chroma(
-                persist_directory="./.data",
+                # persist_directory="./.data",
                 embedding_function=embeddings,
             )
             database.add_documents(data)
@@ -116,7 +117,7 @@ with tab_chat:
         model="text-embedding-ada-002",
     )
     database = Chroma(
-        persist_directory="./.data",
+        # persist_directory="./.data",
         embedding_function=embeddings,
     )
     chat = ChatOpenAI(
@@ -180,12 +181,12 @@ with tab_chat:
                         st.write(source_document.page_content)
                         
                         # 画像を表示
-                        page_number = source_document.metadata['page']  # 表示したいページ番号
-                        documents_fitz = fitz.open(source_document.metadata['file_path'])
-                        page = documents_fitz.load_page(page_number)  # 0-indexed
-                        pix = page.get_pixmap()
-                        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                        st.image(img, caption=f'Page {page_number+1}', use_column_width=True)
+                        # page_number = source_document.metadata['page']  # 表示したいページ番号
+                        # documents_fitz = fitz.open(source_document.metadata['file_path'])
+                        # page = documents_fitz.load_page(page_number)  # 0-indexed
+                        # pix = page.get_pixmap()
+                        # img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                        # st.image(img, caption=f'Page {page_number+1}', use_column_width=True)
                         
                         # メタデータを表示
                         df = pd.DataFrame(source_document.metadata, index=["ソースに関する情報"])
@@ -201,7 +202,7 @@ with tab_search:
         model="text-embedding-ada-002",
     )
     database = Chroma(
-        persist_directory="./.data",
+        # persist_directory="./.data",
         embedding_function=embeddings,
     )
     search_message = st.chat_input("PDFに関する質問を入力してください", key='unique_key_2')
@@ -242,7 +243,7 @@ with tab_search:
 # chromaのデータをGUIで確認
 with tab_data:
     database = Chroma(
-        persist_directory="./.data",
+        # persist_directory="./.data",
         embedding_function=embeddings,
     )
     # データの確認
