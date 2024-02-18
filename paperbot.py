@@ -65,7 +65,7 @@ class StreamCallbackHandler(BaseCallbackHandler):
         self.tokens_area.markdown(self.tokens_stream)
 
 # UI周り
-st.title("ろんぶんらぐちゃっと")
+st.title("ろんぶんらぐちゃっと(Paper-RAG-Chat)")
 
 tab_chat, tab_search, tab_pdf, tab_data = st.tabs(["CHAT", "SEARCH", "PDF UPLOAD","DATA"])
 
