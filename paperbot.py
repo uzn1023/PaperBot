@@ -68,6 +68,8 @@ class StreamCallbackHandler(BaseCallbackHandler):
 st.title("ろんぶんらぐちゃっと")
 
 tab_chat, tab_search, tab_pdf, tab_data = st.tabs(["CHAT", "SEARCH", "PDF UPLOAD","DATA"])
+img = Image.open('paperrobotpic.jpg')
+st.image(img, width=200)
 
 with st.sidebar:
     # 画像を表示
