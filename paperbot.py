@@ -74,8 +74,8 @@ with tab_pdf:
         
         # PDFを表示
         with st.expander("読み込まれたファイル", expanded=False):
-            st.write(show_pdf(tmp_file.name))
-
+            # st.write(show_pdf(tmp_file.name))
+            st.write(uploaded_file.getvalue())
         loader = PyMuPDFLoader(file_path=tmp_file_path) 
         documents = loader.load() 
         
@@ -241,7 +241,7 @@ with tab_data:
         embedding_function=embeddings,
     )
     # データの確認
-    conn = sqlite3.connect("chroma.sqlite3")
+    conn = sqlite3.connect("./chroma.sqlite3")
 
     # テーブル名を取得
     cursor = conn.cursor()
