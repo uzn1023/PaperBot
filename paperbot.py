@@ -75,6 +75,11 @@ with st.sidebar:
     select_chunk_size = st.slider("Chunk", min_value=0.0, max_value=1000.0, value=512.0, step=10.0,)
     select_overlap = st.slider("Chunk-overlap", min_value=0.0, max_value=select_chunk_size, value=0.0, step=10.0,)
     translate_on = st.toggle('検索結果を翻訳する', key='1')
+
+    select_fetch_k = st.slider("MMR使用件数 fetch_k", min_value=1, max_value=50, value=20, step=1)
+    select_k = st.slider("検索数 k", min_value=1, max_value=50, value=select_fetch_k, step=1)
+    select_lambda = st.slider("検索結果多様性 λ", min_value=0.0, max_value=1.0, value=0.25, step=0.05)
+
 with tab_pdf:
     uploaded_file = st.file_uploader("PDFをアップロードしてください", type="pdf")
     if uploaded_file:
@@ -214,7 +219,7 @@ with tab_search:
     )
     search_message = st.chat_input("PDFに関する質問を入力してください", key='unique_key_2')
     if search_message:
-        retriever = database.as_retriever(search_type="mmr", search_kwargs={'fetch_k': 50, "k": 10, 'lambda_mult': 0.25})
+        retriever = database.as_retriever(search_type="mmr", search_kwargs={'fetch_k': select_fetch_k, "k": select_k, 'lambda_mult': select_lambda})
         docs = retriever.get_relevant_documents(search_message)
         st.markdown(f"##  \"{search_message}\" の検索結果")
         for num, source_document in enumerate(docs):
