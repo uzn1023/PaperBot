@@ -264,7 +264,7 @@ with tab_data:
     # for table in tables:
     #     st.write(table)
 
-    # ボタンを押すと.dataディレクトリを削除
+    # ボタンを押すとchromaのデータをすべて削除
     if st.button("データを削除"):
-        os.system("rm -r ./.data")
-        os.system("rm ./chroma.sqlite3")
+        database.delete_all_documents()
+        st.write("データを削除しました")
