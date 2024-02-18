@@ -68,6 +68,7 @@ with st.sidebar:
     select_model = st.selectbox("Model", ["gpt-3.5-turbo", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-instruct", "gpt-4-1106-preview", "gpt-4-turbo-preview"])
     select_temperature = st.slider("Temperature", min_value=0.0, max_value=2.0, value=0.0, step=0.1,)
     select_chunk_size = st.slider("Chunk", min_value=0.0, max_value=1000.0, value=512.0, step=10.0,)
+    select_overlap = st.slider("Chunk-overlap", min_value=0.0, max_value=select_chunk_size, value=0.0, step=10.0,)
     translate_on = st.toggle('検索結果を翻訳する', key='1')
 with tab_pdf:
     uploaded_file = st.file_uploader("PDFをアップロードしてください", type="pdf")
@@ -93,7 +94,8 @@ with tab_pdf:
             text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
                 separator="."
                 ,chunk_size=select_chunk_size
-                ,chunk_overlap=0)
+                ,chunk_overlap=select_overlap
+            )
             
             # documentsから改行コード\nを削除する
             for doc in documents:
