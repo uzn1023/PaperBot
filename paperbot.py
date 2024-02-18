@@ -14,10 +14,15 @@ import base64
 import pandas as pd
 import fitz  # PyMuPDF
 from PIL import Image
-import sqlite3
+# import sqlite3
 from langchain.text_splitter import CharacterTextSplitter
 import translate
 import openai
+
+import('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 # openai.api_key = "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"
