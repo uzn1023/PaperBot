@@ -15,19 +15,18 @@ import pandas as pd
 import fitz  # PyMuPDF
 from PIL import Image
 
-# ローカル
-# import sqlite3 
-
-# 本番環境
 from langchain.text_splitter import CharacterTextSplitter
 import translate
 import openai
 
-import sqlite3
-# import pysqlite3 as sqlite3
-# __import__('pysqlite3')
-# import sys
-# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# ローカル
+# import sqlite3
+ 
+# 本番環境
+import pysqlite3 as sqlite3
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
