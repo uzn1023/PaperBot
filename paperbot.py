@@ -70,15 +70,19 @@ st.title("論文質問BOT")
 tab_chat, tab_search, tab_pdf, tab_data = st.tabs(["CHAT", "SEARCH", "PDF UPLOAD","DATA"])
 
 with st.sidebar:
+    st.markdown("## モデルの設定")
     select_model = st.selectbox("Model", ["gpt-3.5-turbo", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-instruct", "gpt-4-1106-preview", "gpt-4-turbo-preview"])
+    
+    st.markdown("## PDF読み込みパラメータの設定")
     select_temperature = st.slider("Temperature", min_value=0.0, max_value=2.0, value=0.0, step=0.1,)
     select_chunk_size = st.slider("Chunk", min_value=0.0, max_value=1000.0, value=512.0, step=10.0,)
     select_overlap = st.slider("Chunk-overlap", min_value=0.0, max_value=select_chunk_size, value=0.0, step=10.0,)
-    translate_on = st.toggle('検索結果を翻訳する', key='1')
 
+    st.markdown("## 検索パラメータの設定")
     select_fetch_k = st.slider("MMR使用件数 fetch_k", min_value=1, max_value=50, value=20, step=1)
     select_k = st.slider("検索数 k", min_value=1, max_value=select_fetch_k, value=5, step=1)
     select_lambda = st.slider("検索結果多様性 λ", min_value=0.0, max_value=1.0, value=0.25, step=0.05)
+    translate_on = st.toggle('検索結果を翻訳する', key='1')
 
 with tab_pdf:
     uploaded_file = st.file_uploader("PDFをアップロードしてください", type="pdf")
