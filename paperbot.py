@@ -19,10 +19,10 @@ from langchain.text_splitter import CharacterTextSplitter
 import translate
 import openai
 
-import pysqlite3 as sqlite3
-# import('pysqlite3')
-# import sys
-# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# import pysqlite3 as sqlite3
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
