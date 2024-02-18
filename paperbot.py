@@ -266,5 +266,10 @@ with tab_data:
 
     # ボタンを押すとchromaのデータをすべて削除
     if st.button("データを削除"):
-        database.delete_all_documents()
-        st.write("データを削除しました")
+        # chromaのすべてのレコードのIDを取得
+        conn = sqlite3.connect("./chroma.sqlite3")
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM collection_metadata;")
+        ids = cursor.fetchall()
+        for document_id in ids:
+            database.delete_document(document_id)
