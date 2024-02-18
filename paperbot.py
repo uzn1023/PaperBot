@@ -244,22 +244,26 @@ with tab_search:
                 st.table(df.transpose())
 # chromaのデータをGUIで確認
 with tab_data:
-    database = Chroma(
-        # persist_directory="./.data",
-        embedding_function=embeddings,
-    )
-    # データの確認
-    conn = sqlite3.connect("./chroma.sqlite3")
+    # database = Chroma(
+    #     # persist_directory="./.data",
+    #     embedding_function=embeddings,
+    # )
+    # # データの確認
+    # conn = sqlite3.connect("./chroma.sqlite3")
 
-    # テーブル名を取得
-    cursor = conn.cursor()
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    # # テーブル名を取得
+    # cursor = conn.cursor()
+    # cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     
-    # embedding_metadataテーブルの情報を取得
-    cursor.execute("PRAGMA table_info(collection_metadata);")
+    # # embedding_metadataテーブルの情報を取得
+    # cursor.execute("PRAGMA table_info(collection_metadata);")
 
-    # 結果を取得
-    tables = cursor.fetchall()
-    # Streamlitで結果を表示
-    for table in tables:
-        st.write(table)
+    # # 結果を取得
+    # tables = cursor.fetchall()
+    # # Streamlitで結果を表示
+    # for table in tables:
+    #     st.write(table)
+    
+    # ボタンを押すと.dataディレクトリを削除
+    if st.button("データを削除"):
+        os.system("rm -r ./.data")
