@@ -263,7 +263,8 @@ with tab_data:
     # # Streamlitで結果を表示
     # for table in tables:
     #     st.write(table)
-    
+
     # ボタンを押すと.dataディレクトリを削除
     if st.button("データを削除"):
         os.system("rm -r ./.data")
+        os.system("rm ./chroma.sqlite3")
