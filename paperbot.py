@@ -72,7 +72,7 @@ tab_chat, tab_search, tab_pdf, tab_data = st.tabs(["CHAT", "SEARCH", "PDF UPLOAD
 with st.sidebar:
     # 画像を表示
     img = Image.open('paperrobotpic.jpg')
-    st.image(img, caption='Super Mario', use_column_width=True)
+    st.image(img, use_column_width=True)
 
     st.markdown("## モデルの設定")
     select_model = st.selectbox("Model", ["gpt-3.5-turbo", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-instruct", "gpt-4-1106-preview", "gpt-4-turbo-preview"])
