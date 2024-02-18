@@ -113,7 +113,7 @@ with tab_pdf:
             )
 
             database = Chroma(
-                persist_directory="./.data",
+                # persist_directory="./.data",
                 embedding_function=embeddings,
             )
             database.add_documents(data)
@@ -124,7 +124,7 @@ with tab_chat:
         model="text-embedding-ada-002",
     )
     database = Chroma(
-        persist_directory="./.data",
+        # persist_directory="./.data",
         embedding_function=embeddings,
     )
     chat = ChatOpenAI(
@@ -209,7 +209,7 @@ with tab_search:
         model="text-embedding-ada-002",
     )
     database = Chroma(
-        persist_directory="./.data",
+        # persist_directory="./.data",
         embedding_function=embeddings,
     )
     search_message = st.chat_input("PDFに関する質問を入力してください", key='unique_key_2')
