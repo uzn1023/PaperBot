@@ -32,8 +32,6 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 os.environ["OPENAI_API_KEY"] = st.secrets.OpenAIAPI.openai_api_key
 
-st.set_page_config(layout="wide")
-
 def show_pdf(file_path:str):
     """Show the PDF in Streamlit
     That returns as html component
@@ -62,6 +60,15 @@ class StreamCallbackHandler(BaseCallbackHandler):
     def on_llm_new_token(self, token, **kwargs):
         self.tokens_stream += token
         self.tokens_area.markdown(self.tokens_stream)
+
+image_fav = Image.open('PaperRAGFavicon.jpg')
+st.set_page_config(
+    page_title="Paper-RAG-Chat", 
+    page_icon=image_fav, 
+    layout="wide", 
+    initial_sidebar_state="auto", 
+)
+
 
 # UI周り
 st.title("ろんぶんらぐちゃっと(Paper-RAG-Chat)")
