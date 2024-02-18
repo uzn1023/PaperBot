@@ -14,15 +14,20 @@ import base64
 import pandas as pd
 import fitz  # PyMuPDF
 from PIL import Image
-# import sqlite3
+
+# ローカル
+# import sqlite3 
+
+# 本番環境
 from langchain.text_splitter import CharacterTextSplitter
 import translate
 import openai
 
-import pysqlite3 as sqlite3
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import sqlite3
+# import pysqlite3 as sqlite3
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
@@ -108,7 +113,7 @@ with tab_pdf:
             )
 
             database = Chroma(
-                # persist_directory="./.data",
+                persist_directory="./.data",
                 embedding_function=embeddings,
             )
             database.add_documents(data)
@@ -119,7 +124,7 @@ with tab_chat:
         model="text-embedding-ada-002",
     )
     database = Chroma(
-        # persist_directory="./.data",
+        persist_directory="./.data",
         embedding_function=embeddings,
     )
     chat = ChatOpenAI(
@@ -204,7 +209,7 @@ with tab_search:
         model="text-embedding-ada-002",
     )
     database = Chroma(
-        # persist_directory="./.data",
+        persist_directory="./.data",
         embedding_function=embeddings,
     )
     search_message = st.chat_input("PDFに関する質問を入力してください", key='unique_key_2')
@@ -218,7 +223,6 @@ with tab_search:
             # search_messageに一致する単語をハイライト
             st.markdown(f"### 検索結果{num+1}")
             st.markdown(f"- 論文名: {source_document.metadata['title']} / p.{source_document.metadata['page'] + 1}")            
-            st.markdown(f"- ページ: ")
 
             st.markdown(f"#### 検索結果テキスト")
             seached_txt = source_document.page_content.replace(search_message, f"**`{search_message}`**")
@@ -268,8 +272,14 @@ with tab_data:
     if st.button("データを削除"):
         # chromaのすべてのレコードのIDを取得
         conn = sqlite3.connect("./chroma.sqlite3")
-        cursor = conn.cursor()
-        cursor.execute("SELECT id FROM collection_metadata;")
-        ids = cursor.fetchall()
-        for document_id in ids:
-            database.delete_document(document_id)
+        c = conn.cursor()
+
+        c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = c.fetchall()
+
+        # 各テーブルを削除
+        for table in tables:
+            c.execute(f'TRUNCATE {table[0]};')
+
+        # 変更をコミット
+        conn.commit()
