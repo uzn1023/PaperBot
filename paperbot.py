@@ -214,7 +214,7 @@ with tab_search:
     )
     search_message = st.chat_input("PDFに関する質問を入力してください", key='unique_key_2')
     if search_message:
-        retriever = database.as_retriever(search_type="mmr")
+        retriever = database.as_retriever(search_type="mmr", search_kwargs={"k": 10})
         docs = retriever.get_relevant_documents(search_message, k=10)
         st.markdown(f"##  \"{search_message}\" の検索結果")
         for num, source_document in enumerate(docs):
