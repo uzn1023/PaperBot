@@ -77,7 +77,7 @@ with st.sidebar:
     translate_on = st.toggle('検索結果を翻訳する', key='1')
 
     select_fetch_k = st.slider("MMR使用件数 fetch_k", min_value=1, max_value=50, value=20, step=1)
-    select_k = st.slider("検索数 k", min_value=1, max_value=50, value=select_fetch_k, step=1)
+    select_k = st.slider("検索数 k", min_value=1, max_value=select_fetch_k, value=5, step=1)
     select_lambda = st.slider("検索結果多様性 λ", min_value=0.0, max_value=1.0, value=0.25, step=0.05)
 
 with tab_pdf:
@@ -139,7 +139,7 @@ with tab_chat:
     )
 
     # retrieverに変換（検索、プロンプトの構築）
-    retriever = database.as_retriever(search_type="mmr")
+    retriever = database.as_retriever(search_type="mmr", search_kwargs={'fetch_k': select_fetch_k, "k": select_k, 'lambda_mult': select_lambda})
 
     # 会話履歴を初期化
     if "memory" not in st.session_state:
