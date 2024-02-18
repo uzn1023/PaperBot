@@ -104,8 +104,9 @@ with tab_pdf:
                 persist_directory="./.data",
                 embedding_function=embeddings,
             )
-
             database.add_documents(data)
+        tmp_file.close()
+
 with tab_chat:
     embeddings = OpenAIEmbeddings(
         model="text-embedding-ada-002",
