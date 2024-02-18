@@ -72,40 +72,40 @@ with tab_pdf:
             tmp_file.write(uploaded_file.getvalue())
             tmp_file_path = tmp_file.name
         
-        # PDFを表示
-        with st.expander("読み込まれたファイル", expanded=False):
-            st.write(show_pdf(tmp_file.name))
-            #st.write(uploaded_file.getvalue())
-        loader = PyMuPDFLoader(file_path=tmp_file_path) 
-        documents = loader.load() 
-        
-        # text_splitter = RecursiveCharacterTextSplitter(
-        #     chunk_size = 500,
-        #     chunk_overlap  = 128,
-        #     length_function = len,
-        # )
-        
-        text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
-            separator="."
-            ,chunk_size=512
-            ,chunk_overlap=0)
-        
-        # documentsから改行コード\nを削除する
-        for doc in documents:
-            doc.page_content = doc.page_content.replace("\n", "")
+            # PDFを表示
+            with st.expander("読み込まれたファイル", expanded=False):
+                st.write(show_pdf(tmp_file.name))
+                #st.write(uploaded_file.getvalue())
+            loader = PyMuPDFLoader(file_path=tmp_file_path) 
+            documents = loader.load() 
+            
+            # text_splitter = RecursiveCharacterTextSplitter(
+            #     chunk_size = 500,
+            #     chunk_overlap  = 128,
+            #     length_function = len,
+            # )
+            
+            text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
+                separator="."
+                ,chunk_size=512
+                ,chunk_overlap=0)
+            
+            # documentsから改行コード\nを削除する
+            for doc in documents:
+                doc.page_content = doc.page_content.replace("\n", "")
 
-        data = text_splitter.split_documents(documents)
+            data = text_splitter.split_documents(documents)
 
-        embeddings = OpenAIEmbeddings(
-            model="text-embedding-ada-002",
-        )
+            embeddings = OpenAIEmbeddings(
+                model="text-embedding-ada-002",
+            )
 
-        database = Chroma(
-            persist_directory="./.data",
-            embedding_function=embeddings,
-        )
+            database = Chroma(
+                persist_directory="./.data",
+                embedding_function=embeddings,
+            )
 
-        database.add_documents(data)
+            database.add_documents(data)
 with tab_chat:
     embeddings = OpenAIEmbeddings(
         model="text-embedding-ada-002",
